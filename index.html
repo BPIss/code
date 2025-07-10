@@ -47,5 +47,12 @@
             }
         }
     </script>
+    <script>
+      // Jeśli URL nie zawiera ?v=..., przeładuj z wersją
+      if (window.location.search.indexOf('v=') === -1) {
+          const version = 'v=' + new Date().getTime();
+          window.location.replace(window.location.pathname + '?' + version);
+      }
+    </script>
 </body>
 </html>
