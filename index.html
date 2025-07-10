@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Skaner QR</title>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 20px;
-    }
-    #reader {
-      width: 300px;
-      margin: 0 auto;
-      padding-top: 50px;
-    }
-    h1 {
-      color: #333;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>QR Scanner - Fully Kiosk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-  <h1>Skanuj kod QR</h1>
-  <div id="reader"></div>
+    <h1>Skaner QR (Fully Kiosk)</h1>
+    <button onclick="scanQRCode()">Skanuj kod QR</button>
+    <div id="result"></div>
 
-  <script>
-    function onScanSuccess(decodedText, decodedResult) {
-      // Po zeskanowaniu przekieruj użytkownika
-      window.location.href = decodedText;
-    }
-
-    function onScanFailure(error) {
-      // Błędy można ignorować
-    }
-
-    const html5QrCode = new Html5Qrcode("reader");
-
-    // Używamy domyślnej kamery (np. tylnej na telefonie)
-    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-    html5QrCode.start(
-      { facingMode: "environment" }, // Tylna kamera, jeśli dostępna
-      config,
-      onScanSuccess,
-      onScanFailure
-    ).catch(err => {
-      document.body.innerHTML = `<p style="color:red;">Błąd: nie udało się uzyskać dostępu do kamery.<br>${err}</p>`;
-    });
-  </script>
+    <script>
+        function scanQRCode() {
+            if (typeof fully !== "undefined" && fully.scanQrCode) {
+                fully.scanQrCode(function(result) {
+                    document.getElementById("result").innerText = "Wynik skanowania: " + result;
+                    // Możesz także przekierować np.:
+                    // window.location.href = result;
+                });
+            } else {
+                alert("Funkcja 'fully.scanQrCode' jest niedostępna. Upewnij się, że JavaScript Interface i QR Scanner są włączone.");
+            }
+        }
+    </script>
 </body>
 </html>
