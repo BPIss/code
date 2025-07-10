@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Skaner QR</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    #reader {
+      width: 300px;
+      margin: 0 auto;
+      padding-top: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Skanuj kod QR</h1>
+  <div id="reader"></div>
+
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+      // Po zeskanowaniu przekieruj użytkownika
+      window.location.href = decodedText;
+    }
+
+    function onScanFailure(error) {
+      // Błędy można ignorować
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+
+    // Używamy domyślnej kamery (np. tylnej na telefonie)
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+    html5QrCode.start(
+      { facingMode: "environment" }, // Tylna kamera, jeśli dostępna
+      config,
+      onScanSuccess,
+      onScanFailure
+    ).catch(err => {
+      document.body.innerHTML = `<p style="color:red;">Błąd: nie udało się uzyskać dostępu do kamery.<br>${err}</p>`;
+    });
+  </script>
+</body>
+</html>
