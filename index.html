@@ -1,65 +1,37 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <script>
-        alert("Czy obiekt fully istnieje? " + typeof fully);
-    </script>
 <head>
-    <meta charset="UTF-8">
-    <title>QR Scanner - Fully Kiosk</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-            background-color: #f2f2f2;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 30px;
-            font-size: 20px;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Test Fully QR</title>
 </head>
 <body>
-    <h1>Skaner QR (Fully Kiosk)</h1>
-    <button onclick="scanQRCode()">Skanuj kod QR</button>
-    <div id="result"></div>
+  <button onclick="scanQRCode()">Skanuj QR</button>
+  <div id="result"></div>
 
-   <script>
-        fully.bind('onQrScanSuccess', 'onScanned("$code");');
-        fully.bind('onQrScanCancelled', 'onCancelled();');
-    
-        function scanQRCode() {
-            fully.scanQrCode("Zeskanuj kod QR", "", -1, 15, true, true, false);
+  <script>
+    // Bind handlers for scan success and cancel
+    fully.bind('onQrScanSuccess', 'onScanned("$code");');
+    fully.bind('onQrScanCancelled', 'onCancelled();');
+
+    function scanQRCode() {
+        // Prompt, resultUrl, cameraId, timeout, beep, cancel button, flashlight
+        fully.scanQrCode("Zeskanuj kod", "", -1, 15, true, true, false);
+    }
+
+    function onScanned(code) {
+        document.getElementById("result").innerText = "Zeskanowano: " + code;
+
+        // Automatically open the scanned URL
+        if (code && code.startsWith("http")) {
+            window.location.href = code;
+        } else {
+            alert("Nieprawidłowy link: " + code);
         }
-    
-        function onScanned(code) {
-            document.getElementById("result").innerText = "Zeskanowano: " + code;
-            // window.location.href = code; // jeśli chcesz przekierować
-        }
-    
-        function onCancelled() {
-            alert("Skanowanie anulowane");
-        }
-    </script>
-    <script>
-      // Jeśli URL nie zawiera ?v=..., przeładuj z wersją
-      if (window.location.search.indexOf('v=') === -1) {
-          const version = 'v=' + new Date().getTime();
-          window.location.replace(window.location.pathname + '?' + version);
-      }
-    </script>
+    }
+
+    function onCancelled() {
+        alert("Skanowanie anulowane");
+    }
+  </script>
 </body>
 </html>
