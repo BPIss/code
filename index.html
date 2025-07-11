@@ -87,7 +87,7 @@
 
     function scanQRCode() {
       console.log("Starting scan...");
-      fully.scanQrCode("Zeskanuj kod", "", -1, 15, true, true, false);
+      fully.scanQrCode("Zeskanuj kod", "", -1, 15, false, true, false);
     }
 
     function onScanned(code) {
@@ -99,12 +99,7 @@
       } else {
         alert("Zeskanowany kod nie jest linkiem: " + code);
       }
-    }
-
-    function onCancelled() {
-      console.log("Scan cancelled");
-      alert("Skanowanie anulowane");
-    }
+      
   </script>
 </body>
 </html>
