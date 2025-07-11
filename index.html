@@ -2,43 +2,99 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Test Fully QR</title>
+  <title>Skaner QR (Fully)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 18px;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
-  <button onclick="scanQRCode()">Skanuj QR</button>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Skaner QR</h1>
+    <button onclick="scanQRCode()">Skanuj kod</button>
+    <div id="result"></div>
+  </div>
 
   <script>
-    // Initialize bindings once, on page load
     document.addEventListener("DOMContentLoaded", () => {
-        if (typeof fully !== "undefined") {
-            fully.bind('onQrScanSuccess', 'onScanned("$code");');
-            fully.bind('onQrScanCancelled', 'onCancelled();');
-            console.log("Bindings set");
-        } else {
-            alert("Fully interface not available.");
-        }
+      if (typeof fully !== "undefined") {
+        fully.bind('onQrScanSuccess', 'onScanned("$code");');
+        fully.bind('onQrScanCancelled', 'onCancelled();');
+        console.log("Bindings set");
+      } else {
+        alert("Fully interface not available.");
+      }
     });
 
     function scanQRCode() {
-        console.log("Starting scan...");
-        fully.scanQrCode("Zeskanuj kod", "", -1, 15, true, true, false);
+      console.log("Starting scan...");
+      fully.scanQrCode("Zeskanuj kod", "", -1, 15, true, true, false);
     }
 
     function onScanned(code) {
-        console.log("Scan success: ", code);
-        document.getElementById("result").innerText = "Zeskanowano: " + code;
+      console.log("Scan success: ", code);
+      document.getElementById("result").innerText = "Zeskanowano: " + code;
 
-        if (code && code.startsWith("http")) {
-            window.location.href = code;
-        } else {
-            alert("Zeskanowany kod nie jest linkiem: " + code);
-        }
+      if (code && code.startsWith("http")) {
+        window.location.href = code;
+      } else {
+        alert("Zeskanowany kod nie jest linkiem: " + code);
+      }
     }
 
     function onCancelled() {
-        console.log("Scan cancelled");
-        alert("Skanowanie anulowane");
+      console.log("Scan cancelled");
+      alert("Skanowanie anulowane");
     }
   </script>
 </body>
