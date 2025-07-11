@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl">
+    <script>
+        alert("Czy obiekt fully istnieje? " + typeof fully);
+    </script>
 <head>
     <meta charset="UTF-8">
     <title>QR Scanner - Fully Kiosk</title>
@@ -57,9 +60,6 @@
           const version = 'v=' + new Date().getTime();
           window.location.replace(window.location.pathname + '?' + version);
       }
-    </script>
-    <script>
-        alert("Czy obiekt fully istnieje? " + typeof fully);
     </script>
 </body>
 </html>
