@@ -9,27 +9,35 @@
   <div id="result"></div>
 
   <script>
-    // Bind handlers for scan success and cancel
-    fully.bind('onQrScanSuccess', 'onScanned("$code");');
-    fully.bind('onQrScanCancelled', 'onCancelled();');
+    // Initialize bindings once, on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof fully !== "undefined") {
+            fully.bind('onQrScanSuccess', 'onScanned("$code");');
+            fully.bind('onQrScanCancelled', 'onCancelled();');
+            console.log("Bindings set");
+        } else {
+            alert("Fully interface not available.");
+        }
+    });
 
     function scanQRCode() {
-        // Prompt, resultUrl, cameraId, timeout, beep, cancel button, flashlight
+        console.log("Starting scan...");
         fully.scanQrCode("Zeskanuj kod", "", -1, 15, true, true, false);
     }
 
     function onScanned(code) {
+        console.log("Scan success: ", code);
         document.getElementById("result").innerText = "Zeskanowano: " + code;
 
-        // Automatically open the scanned URL
         if (code && code.startsWith("http")) {
             window.location.href = code;
         } else {
-            alert("Nieprawidłowy link: " + code);
+            alert("Zeskanowany kod nie jest linkiem: " + code);
         }
     }
 
     function onCancelled() {
+        console.log("Scan cancelled");
         alert("Skanowanie anulowane");
     }
   </script>
