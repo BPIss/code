@@ -73,7 +73,13 @@
       <div id="result"></div>
     </div>
   </div>
-
+  <script>
+    if (!window.location.search.includes('v=')) {
+      const version = 'v=' + new Date().getTime();
+      const newUrl = window.location.pathname + '?' + version;
+      window.location.replace(newUrl);
+    }
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       if (typeof fully !== "undefined") {
