@@ -34,17 +34,21 @@
     <button onclick="scanQRCode()">Skanuj kod QR</button>
     <div id="result"></div>
 
-    <script>
+   <script>
+        fully.bind('onQrScanSuccess', 'onScanned("$code");');
+        fully.bind('onQrScanCancelled', 'onCancelled();');
+    
         function scanQRCode() {
-            if (typeof fully !== "undefined" && fully.scanQrCode) {
-                fully.scanQrCode(function(result) {
-                    document.getElementById("result").innerText = "Wynik skanowania: " + result;
-                    // Możesz także przekierować np.:
-                    // window.location.href = result;
-                });
-            } else {
-                alert("Funkcja 'fully.scanQrCode' jest niedostępna. Upewnij się, że JavaScript Interface i QR Scanner są włączone.");
-            }
+            fully.scanQrCode("Zeskanuj kod QR", "", -1, 15, true, true, false);
+        }
+    
+        function onScanned(code) {
+            document.getElementById("result").innerText = "Zeskanowano: " + code;
+            // window.location.href = code; // jeśli chcesz przekierować
+        }
+    
+        function onCancelled() {
+            alert("Skanowanie anulowane");
         }
     </script>
     <script>
