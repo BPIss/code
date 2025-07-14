@@ -96,7 +96,7 @@
       fully.scanQrCode("Zeskanuj kod", "", -1, 15, false, true, false);
     }
 
-    function onScanned(code) {
+   function onScanned(code) {
       console.log("Scan success: ", code);
       document.getElementById("result").innerText = "Zeskanowano: " + code;
 
@@ -105,7 +105,12 @@
       } else {
         alert("Zeskanowany kod nie jest linkiem: " + code);
       }
-      
+    }
+
+    function onCancelled() {
+      console.log("Skanowanie anulowane.");
+    }
   </script>
+      
 </body>
 </html>
